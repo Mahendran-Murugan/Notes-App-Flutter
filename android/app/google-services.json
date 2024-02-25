@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430820201157",
+    "project_id": "notes-flutter-mlp-project",
+    "storage_bucket": "notes-flutter-mlp-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430820201157:android:c692b7bdbdf664b19356ac",
+        "android_client_info": {
+          "package_name": "com.mahendranmurugan.notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKslhKV3sbG9S--h5sslB0nLjt3cpaK6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
