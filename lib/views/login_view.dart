@@ -54,13 +54,17 @@ class _LoginViewState extends State<LoginView> {
             final email = _email.text;
             final pass = _email.text;
             try {
-              final userCredential = await FirebaseAuth.instance
-                  .signInWithEmailAndPassword(email: email, password: pass);
+              final userCredential =
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                email: email,
+                password: pass,
+              );
+              print(userCredential);
             } on FirebaseAuthException catch (e) {
               if (e.code == 'invalid-credential') {
-                log("User Not Found");
+                print("User Not Found");
               } else {
-                log(e.code);
+                print(e.code);
               }
             }
           },
