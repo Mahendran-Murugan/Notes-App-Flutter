@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -69,7 +68,11 @@ class _LoginViewState extends State<LoginView> {
             }
           },
           child: const Text("Login"),
-        )
+        ),
+        TextButton(
+          onPressed: () {},
+          child: const Text("Not Registered? Reister here!"),
+        ),
       ],
     );
   }
