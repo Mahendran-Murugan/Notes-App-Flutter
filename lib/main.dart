@@ -29,33 +29,26 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              // final user = FirebaseAuth.instance.currentUser;
-              // final userVerified = user?.emailVerified ?? false;
-              // print(user);
-              // if (userVerified) {
-              //   return const Text('Done');
-              // } else {
-              //   return const VerifyEmailView();
-              // }
-              return const LoginView();
-            default:
-              return const Text("Loading");
-          }
-        },
-      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            // final user = FirebaseAuth.instance.currentUser;
+            // final userVerified = user?.emailVerified ?? false;
+            // print(user);
+            // if (userVerified) {
+            //   return const Text('Done');
+            // } else {
+            //   return const VerifyEmailView();
+            // }
+            return const LoginView();
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
@@ -70,17 +63,24 @@ class VerifyEmailView extends StatefulWidget {
 class _VerifyEmailViewState extends State<VerifyEmailView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text("Please Verify You're Email"),
-        TextButton(
-          onPressed: () {
-            final user = FirebaseAuth.instance.currentUser;
-            user?.sendEmailVerification();
-          },
-          child: const Text("Send Email Verification"),
-        )
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Verify Email"),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+      ),
+      body: Column(
+        children: [
+          const Text("Please Verify You're Email"),
+          TextButton(
+            onPressed: () {
+              final user = FirebaseAuth.instance.currentUser;
+              user?.sendEmailVerification();
+            },
+            child: const Text("Send Email Verification"),
+          )
+        ],
+      ),
     );
   }
 }
