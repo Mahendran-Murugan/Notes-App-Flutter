@@ -58,6 +58,10 @@ class HomePage extends StatelessWidget {
   }
 }
 
+enum MenuAction {
+  logout,
+}
+
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
 
@@ -73,6 +77,23 @@ class _NotesViewState extends State<NotesView> {
         title: const Text("Notes"),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
+        actions: [
+          PopupMenuButton<MenuAction>(
+            onSelected: (value) async {
+              if (value == MenuAction.logout) {
+                await FirebaseAuth.instance.signOut();
+              }
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Logout'),
+                ),
+              ];
+            },
+          )
+        ],
       ),
       body: const Text("Hello, World!"),
     );
