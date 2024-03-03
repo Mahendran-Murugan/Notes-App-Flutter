@@ -60,13 +60,14 @@ class _LoginViewState extends State<LoginView> {
           TextButton(
             onPressed: () async {
               final email = _email.text;
-              final pass = _email.text;
+              final pass = _password.text;
               try {
                 final userCredential =
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: pass,
                 );
+                print(userCredential);
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                   (route) => false,
@@ -75,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-credential') {
                   log("User Not Found");
-                } else {
+                } else if (e.code == "auth/wrong-password") {
                   log(e.code);
                 }
               }

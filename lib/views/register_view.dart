@@ -59,7 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
           TextButton(
             onPressed: () async {
               final email = _email.text;
-              final pass = _email.text;
+              final pass = _password.text;
               try {
                 final userCredential =
                     await FirebaseAuth.instance.createUserWithEmailAndPassword(
