@@ -66,6 +66,8 @@ class _RegisterViewState extends State<RegisterView> {
                   email: email,
                   password: pass,
                 );
+                final user = FirebaseAuth.instance.currentUser;
+                user?.sendEmailVerification();
                 if (!context.mounted) {
                   log("Context Error");
                 } else {
