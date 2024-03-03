@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/routes/constants.dart';
+import 'package:notes/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -66,12 +67,39 @@ class _RegisterViewState extends State<RegisterView> {
                   password: pass,
                 );
               } on FirebaseAuthException catch (e) {
-                if (e.code == 'weak-password') {
-                  log('Weak Password');
-                } else if (e.code == 'email-already-in-use') {
-                  log('Email Already in Use');
-                } else if (e.code == 'invalid-email') {
-                  log('Invalid Email');
+                if (!context.mounted) {
+                  log("Context Error");
+                } else {
+                  if (e.code == 'weak-password') {
+                    await showErrorDialog(
+                      context,
+                      'Weak Password',
+                    );
+                  } else if (e.code == 'email-already-in-use') {
+                    await showErrorDialog(
+                      context,
+                      'Email Already in Use',
+                    );
+                  } else if (e.code == 'invalid-email') {
+                    await showErrorDialog(
+                      context,
+                      'Invalid Email',
+                    );
+                  } else {
+                    await showErrorDialog(
+                      context,
+                      'Error:${e.code}',
+                    );
+                  }
+                }
+              } catch (e) {
+                if (!context.mounted) {
+                  log("Context Error");
+                } else {
+                  await showErrorDialog(
+                    context,
+                    'Error:${e.toString()}',
+                  );
                 }
               }
             },

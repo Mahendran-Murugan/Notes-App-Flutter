@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/routes/constants.dart';
@@ -65,27 +67,39 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: pass,
                 );
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  notesRoute,
-                  (route) => false,
-                );
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'invalid-credential') {
-                  await showErrorDialog(
-                    context,
-                    "Invalid Credentials",
+                if (!context.mounted) {
+                  log("Context Error");
+                } else {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    notesRoute,
+                    (route) => false,
                   );
+                }
+              } on FirebaseAuthException catch (e) {
+                if (!context.mounted) {
+                  log("Context Error");
+                } else {
+                  if (e.code == 'invalid-credential') {
+                    await showErrorDialog(
+                      context,
+                      "Invalid Credentials",
+                    );
+                  } else {
+                    await showErrorDialog(
+                      context,
+                      "Error: ${e.code}",
+                    );
+                  }
+                }
+              } catch (e) {
+                if (!context.mounted) {
+                  log("Context Error");
                 } else {
                   await showErrorDialog(
                     context,
-                    "Error: ${e.code}",
+                    "Error: ${e.toString()}",
                   );
                 }
-              } catch (e) {
-                await showErrorDialog(
-                  context,
-                  "Error: ${e.toString()}",
-                );
               }
             },
             child: const Text("Login"),
