@@ -67,18 +67,27 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: pass,
                 );
-                print(userCredential);
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                   (route) => false,
                 );
-                log(userCredential.toString());
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-credential') {
-                  log("User Not Found");
-                } else if (e.code == "auth/wrong-password") {
-                  log(e.code);
+                  await showErrorDialog(
+                    context,
+                    "Invalid Credentials",
+                  );
+                } else {
+                  await showErrorDialog(
+                    context,
+                    "Error: ${e.code}",
+                  );
                 }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  "Error: ${e.toString()}",
+                );
               }
             },
             child: const Text("Login"),
@@ -96,4 +105,27 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: Text(text),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Ok"),
+          )
+        ],
+      );
+    },
+  );
 }
