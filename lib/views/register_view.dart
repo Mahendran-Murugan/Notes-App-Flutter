@@ -66,6 +66,13 @@ class _RegisterViewState extends State<RegisterView> {
                   email: email,
                   password: pass,
                 );
+                if (!context.mounted) {
+                  log("Context Error");
+                } else {
+                  Navigator.of(context).pushNamed(
+                    verifyEmailRoute,
+                  );
+                }
               } on FirebaseAuthException catch (e) {
                 if (!context.mounted) {
                   log("Context Error");
